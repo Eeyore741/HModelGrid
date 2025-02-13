@@ -34,7 +34,7 @@ private extension HMApp {
     enum Configuration {
         
         /// Product search keyword.
-        static let searchKeyword: String = "skirt"
+        static let searchKeyword: String = "jeans"
         
         /// Platform.
         static let touchPoint: String = "ios"
