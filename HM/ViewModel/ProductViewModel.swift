@@ -47,12 +47,16 @@ final class ProductViewModel: ObservableObject {
         self.state = .fetching
         
         Task(priority: .userInitiated) {
+            let newImage: UIImage
             do {
-                self.image = try await self.imageProvider.getImageWithURL(url)
+                newImage = try await self.imageProvider.getImageWithURL(url)
             } catch {
-                self.image = self.errorImage
+                newImage = self.errorImage
             }
-            await MainActor.run { self.state = .idle }
+            await MainActor.run {
+                self.image = newImage
+                self.state = .idle
+            }
         }
     }
     

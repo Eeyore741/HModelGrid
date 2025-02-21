@@ -42,14 +42,16 @@ final class ProductListViewModel: ObservableObject {
         self.products = []
         
         Task(priority: .userInitiated) {
+            let newState: ProductListViewModel.State
             do {
                 let list = try await self.searchListProvider.getSearchListWithKeyword(self.searchKeyword, page: 1, touchPoint: self.touchPoint)
                 self.products = list.products
                 self.page = list.pagination
+                newState = .idle
             } catch {
-                self.state = .error
+                newState = .error
             }
-            await MainActor.run { self.state = .idle }
+            await MainActor.run { self.state = newState }
         }
     }
     
@@ -59,15 +61,16 @@ final class ProductListViewModel: ObservableObject {
         self.state = .fetching
         
         Task(priority: .userInitiated) {
+            let newState: ProductListViewModel.State
             do {
                 let list = try await self.searchListProvider.getSearchListWithKeyword(self.searchKeyword, page: self.nextPageNumber(), touchPoint: self.touchPoint)
                 self.products += list.products
                 self.page = list.pagination
-                self.state = .idle
+                newState = .idle
             } catch {
-                self.state = .idle
+                newState = .error
             }
-            await MainActor.run { self.state = .idle }
+            await MainActor.run { self.state = newState }
         }
     }
     
