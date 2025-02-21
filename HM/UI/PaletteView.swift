@@ -23,7 +23,7 @@ struct PaletteView: View {
                     Rectangle()
                         .fill(Color(uiColor: element))
                         .frame(width: 10, height: 10)
-                        .border(Color.black, width: 1)
+                        .border(Color.paletteBorder, width: 1)
                 }
             }
             if self.colors.count > self.limit {
