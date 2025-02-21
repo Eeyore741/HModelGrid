@@ -58,7 +58,7 @@ final class ProductListViewModel: ObservableObject {
         
         self.state = .fetching
         
-        Task(priority: .background) {
+        Task(priority: .userInitiated) {
             do {
                 let list = try await self.searchListProvider.getSearchListWithKeyword(self.searchKeyword, page: self.nextPageNumber(), touchPoint: self.touchPoint)
                 self.products += list.products

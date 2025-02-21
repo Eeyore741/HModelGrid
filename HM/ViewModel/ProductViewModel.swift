@@ -46,7 +46,7 @@ final class ProductViewModel: ObservableObject {
         
         self.state = .fetching
         
-        Task(priority: .background) {
+        Task(priority: .userInitiated) {
             do {
                 self.image = try await self.imageProvider.getImageWithURL(url)
             } catch {
