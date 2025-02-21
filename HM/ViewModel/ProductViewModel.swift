@@ -12,7 +12,7 @@ import UIKit
 final class ProductViewModel: ObservableObject {
     
     @Published
-    private(set) var state: ProductViewModel.State = .initial
+    private(set) var state: ProductViewModel.State = .background
     
     private(set) var image: UIImage = UIImage()
     private(set) var brandName: String = String()
@@ -55,6 +55,15 @@ final class ProductViewModel: ObservableObject {
             await MainActor.run { self.state = .idle }
         }
     }
+    
+    func onDisappear() async {
+        self.image = UIImage()
+        self.state = .background
+    }
+    
+    func onAppear() async {
+        await self.fetchImage()
+    }
 }
 
 extension ProductViewModel {
@@ -62,13 +71,13 @@ extension ProductViewModel {
     /// Type defining possible states of `ProductViewModel` instance.
     enum State {
         
-        /// Initial state for `ProductViewModel` instance.
-        case initial
-        
         /// `ProductViewModel` instance is presenting content.
         case idle
         
         /// `ProductViewModel` instance is presenting content.
         case fetching
+        
+        /// `ProductViewModel` instance is not visible.
+        case background
     }
 }

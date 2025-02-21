@@ -15,12 +15,6 @@ struct ProductView: View {
     var body: some View {
         VStack {
             switch self.viewModel.state {
-            case .initial:
-                ProgressView()
-                    .task {
-                        await self.viewModel.fetchImage()
-                    }
-                    .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity)
             case .fetching:
                 ProgressView()
                     .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity)
@@ -46,6 +40,18 @@ struct ProductView: View {
                 PaletteView(limit: self.viewModel.paletteLimit, colors: self.viewModel.paletteColors)
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .padding([.leading, .bottom])
+            case .background:
+                Rectangle()
+            }
+        }
+        .onDisappear {
+            Task {
+                await self.viewModel.onDisappear()
+            }
+        }
+        .onAppear {
+            Task {
+                await self.viewModel.onAppear()
             }
         }
     }

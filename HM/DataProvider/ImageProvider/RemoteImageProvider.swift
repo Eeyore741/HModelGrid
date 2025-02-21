@@ -30,6 +30,7 @@ extension RemoteImageProvider: ImageProvider {
     
     func getImageWithURL(_ imageURL: URL) async throws -> UIImage {
         if let cachedImage = await self.getCacheImageWithUrl(imageURL) {
+            print("From cache \(imageURL.absoluteString)")
             return cachedImage
         }
         let data = try await self.resourceProvider.getRemoteResourceWithUrl(imageURL)

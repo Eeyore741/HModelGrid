@@ -47,7 +47,7 @@ private extension HMApp {
         static let imageScale: CGFloat = 0.25
         
         /// Image cache size.
-        static let imageCacheCount: Int = 20
+        static let imageCacheCount: Int = 6
         
         /// Title of assets image to disaply in case of error fetching product image.
         static let errorImageResourceName: String = "error"
