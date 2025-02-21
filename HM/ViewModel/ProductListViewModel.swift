@@ -42,16 +42,7 @@ final class ProductListViewModel: ObservableObject {
         self.products = []
         
         Task(priority: .userInitiated) {
-            let newState: ProductListViewModel.State
-            do {
-                let list = try await self.searchListProvider.getSearchListWithKeyword(self.searchKeyword, page: 1, touchPoint: self.touchPoint)
-                self.products = list.products
-                self.page = list.pagination
-                newState = .idle
-            } catch {
-                newState = .error
-            }
-            await MainActor.run { self.state = newState }
+            await self.fetchNextPage()
         }
     }
     
