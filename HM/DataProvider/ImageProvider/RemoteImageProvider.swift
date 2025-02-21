@@ -16,10 +16,12 @@ actor RemoteImageProvider {
     
     /// Initialize instance of `ImageProvider`.
     /// - Parameter imageScale: Value between 0 and 1 defines scale factor for result `UIImage`.
-    init(imageScale: CGFloat = 1) {
+    /// - Parameter imageCacheCount: Number of images to be persisted in cache.
+    init(imageScale: CGFloat = 1, imageCacheCount: Int = 20) {
         self.resourceProvider = RemoteDataProvider()
         self.imageScale = imageScale
         self.cache = NSCache<NSString, UIImage>()
+        cache.countLimit = imageCacheCount
     }
 }
 
@@ -28,6 +30,7 @@ extension RemoteImageProvider: ImageProvider {
     
     func getImageWithURL(_ imageURL: URL) async throws -> UIImage {
         if let cachedImage = await self.getCacheImageWithUrl(imageURL) {
+            print("From cache \(imageURL.absoluteString)")
             return cachedImage
         }
         let data = try await self.resourceProvider.getRemoteResourceWithUrl(imageURL)

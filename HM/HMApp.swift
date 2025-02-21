@@ -13,7 +13,8 @@ struct HMApp: App {
         WindowGroup {
             let searchProvider = RemoteSearchListProvider()
             let imageProvider = RemoteImageProvider(
-                imageScale: Configuration.imageScale
+                imageScale: Configuration.imageScale,
+                imageCacheCount: Configuration.imageCacheCount
             )
             let productListViewModel = ProductListViewModel(
                 searchKeyword: Configuration.searchKeyword,
@@ -44,6 +45,9 @@ private extension HMApp {
         
         /// Scale factor for product image.
         static let imageScale: CGFloat = 0.25
+        
+        /// Image cache size.
+        static let imageCacheCount: Int = 6
         
         /// Title of assets image to disaply in case of error fetching product image.
         static let errorImageResourceName: String = "error"
