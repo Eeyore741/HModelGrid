@@ -40,7 +40,7 @@ final class ProductViewModel: ObservableObject {
         self.paletteColors = self.product.swatches.map { UIColor(hex: $0.colorCode) }
     }
     
-    func fetchImage() async {
+    private func fetchImage() async {
         guard self.state != .fetching else { return }
         guard let url = URL(string: product.modelImage) else { return self.image = self.errorImage}
         
