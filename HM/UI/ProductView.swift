@@ -54,6 +54,8 @@ struct ProductView: View {
                 await self.viewModel.onAppear()
             }
         }
+        .accessibilityElement(children: .combine)
+        .accessibilityLabel("\(self.viewModel.productName), by \(self.viewModel.brandName), in \(self.viewModel.paletteColors.count) different colors, costs \(self.viewModel.formattedPrice)")
     }
 }
 
